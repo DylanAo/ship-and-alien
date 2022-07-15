@@ -25,13 +25,3 @@ class Bullet (Sprite):
     # 画子弹
     def draw_bullet(self):
         pygame.draw.rect(self.screen, self.color, self.rect)
-
-
-class Bullet_right(Bullet):
-    def __init__(self, ai_settings, screen, ship):
-        super().__init__(ai_settings, screen, ship)
-        self.x = float(self.rect.x)
-
-    def update(self):
-        self.x += self.speed_factor
-        self.rect.x = self.x
