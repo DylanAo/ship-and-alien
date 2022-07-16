@@ -3,9 +3,9 @@ from settings import Settings
 from ship import Ship
 import game_functions as gf
 from pygame.sprite import Group
+import time
 
-
-def run_game():
+def run_game(flag,start_time):
     # 基础设置
     pygame.init()
     ai_settings = Settings()
@@ -14,17 +14,25 @@ def run_game():
     ship = Ship(ai_settings, screen)  # 创建飞船
     bullets = Group()  # 创建子弹组
     aliens = Group()
-    gf.create_fleet(ai_settings, screen, ship, aliens)
 
     # 主循环
     while True:
         # 监视窗口
         gf.check_events(ai_settings, screen, ship, bullets)  # 响应
+        # 创建外星人
+        if flag:
+            gf.create_fleet(ai_settings, screen, ship, aliens)
+            start_time = time.time()
+            flag = False
+        else:
+            end_time = time.time()
+            if end_time - start_time >= 5:
+                flag = True
         # 更新
         ship.update()  # 更新飞船
         gf.update_bullet(bullets)  # 更新子弹
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)  # 更新屏幕
 
 
-run_game()
+run_game(True, time.time())
 
