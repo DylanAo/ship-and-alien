@@ -12,7 +12,9 @@ def run_game():
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption(ai_settings.game_name)
     ship = Ship(ai_settings, screen)  # 创建飞船
-    bullets = Group()
+    bullets = Group()  # 创建子弹组
+    aliens = Group()
+    gf.create_fleet(ai_settings, screen, ship, aliens)
 
     # 主循环
     while True:
@@ -21,7 +23,7 @@ def run_game():
         # 更新
         ship.update()  # 更新飞船
         gf.update_bullet(bullets)  # 更新子弹
-        gf.update_screen(ai_settings, screen, ship, bullets)  # 更新屏幕
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets)  # 更新屏幕
 
 
 run_game()
