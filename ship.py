@@ -35,3 +35,7 @@ class Ship:
     # 绘制飞船
     def blitme(self):
         self.screen.blit(self.image, self.rect)
+
+    def center_ship(self):
+        self.center_x = self.screen_rect.centerx
+        self.bottom_y = self.screen_rect.bottom
