@@ -8,8 +8,13 @@ class Settings:
         self.ship_speed_factor_lr = 0.5  # 飞船左右移动速度
         self.ship_speed_factor_ud = 0.5  # 飞船上下移动速度
         self.game_name = "Fire in space"  # 窗口名称
+        self.ship_limit = 3
         # 子弹设置
         self.bullet_speed_factor = 1
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
+        # 外星人设置
+        self.alien_speed_factor = 0.5
+        self.fleet_drop_speed = 10
+        self.fleet_direction = 1

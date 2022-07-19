@@ -4,8 +4,10 @@ from ship import Ship
 import game_functions as gf
 from pygame.sprite import Group
 import time
+from game_stats import GameStats
 
-def run_game(flag,start_time):
+
+def run_game(flag, start_time):
     # 基础设置
     pygame.init()
     ai_settings = Settings()
@@ -14,6 +16,8 @@ def run_game(flag,start_time):
     ship = Ship(ai_settings, screen)  # 创建飞船
     bullets = Group()  # 创建子弹组
     aliens = Group()
+    gf.create_fleet(ai_settings, screen, ship, aliens)
+    stats = GameStats(ai_settings)
 
     # 主循环
     while True:
@@ -29,8 +33,10 @@ def run_game(flag,start_time):
             if end_time - start_time >= 5:
                 flag = True
         # 更新
-        ship.update()  # 更新飞船
-        gf.update_bullet(bullets)  # 更新子弹
+        if stats.game_active:
+            ship.update()  # 更新飞船
+            gf.update_alien(ai_settings, stats, screen, ship, aliens, bullets)
+            gf.update_bullet(ai_settings, screen, ship, aliens, bullets)  # 更新子弹
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)  # 更新屏幕
 
 

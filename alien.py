@@ -19,3 +19,16 @@ class Aline(Sprite):
     # 绘制图像
     def bltime(self):
         self.screen.blit(self.image, self.rect)
+
+    # 检测边缘
+    def check_edges(self):
+        screen_rect = self.screen.get_rect()
+        if self.rect.right >= screen_rect.right:
+            return True
+        elif self.rect.left < 0:
+            return True
+
+    # 更新
+    def update(self):
+        self.x += self.ai_settings.alien_speed_factor * self.ai_settings.fleet_direction
+        self.rect.x = self.x
