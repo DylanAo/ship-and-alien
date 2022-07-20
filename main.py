@@ -8,7 +8,7 @@ from game_stats import GameStats
 from button import Button
 
 
-def run_game():
+def run_game(flag, start_time):
     # 基础设置
     pygame.init()
     ai_settings = Settings()
