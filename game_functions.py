@@ -4,8 +4,9 @@ from bullet import Bullet
 from alien import Aline
 from time import sleep
 
+
 # 响应键盘和鼠标
-def check_events(ai_settings, screen, ship, bullets):
+def check_events(ai_settings, screen, stats, play_button, ship, aliens,  bullets):
     for event in pygame.event.get():
         # 关闭窗口
         if event.type == pygame.QUIT:
@@ -15,6 +16,21 @@ def check_events(ai_settings, screen, ship, bullets):
            check_keydown_events(event, ai_settings, screen, ship, bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets,  mouse_x, mouse_y)
+
+
+def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets,  mouse_x, mouse_y):
+    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
+    if button_clicked and not stats.game_active:
+        pygame.mouse.set_visible(False)  # 隐藏光标
+        stats.rest_stats()
+        stats.game_active = True
+        aliens.empty()
+        bullets.empty()
+        create_fleet(ai_settings, screen, ship, aliens)
+        ship.center_ship()
 
 
 # 键盘按下
@@ -43,13 +59,15 @@ def check_keyup_events(event, ship):
         ship.moving_down = False
 
 
-# 屏幕相关
-def update_screen(ai_settings, screen, ship, alines, bullets):
+# 更新屏幕
+def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):
     screen.fill(ai_settings.bg_color)
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     ship.blitme()  # 绘制飞船
-    alines.draw(screen)  # 绘制外星人
+    aliens.draw(screen)  # 绘制外星人
+    if not stats.game_active:
+        play_button.draw_button()
     pygame.display.flip()  # 绘制窗口
 
 
@@ -146,6 +164,7 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
         sleep(0.5)
     else:
         stats.game_active = False
+        pygame.mouse.set_visible(True)
 
 
 # 外星人到底部
